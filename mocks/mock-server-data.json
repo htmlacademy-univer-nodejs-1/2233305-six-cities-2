@@ -1,0 +1,76 @@
+{
+  "api": {
+    "names": [
+      "Дом",
+      "Квартира",
+      "Деревенский дом",
+      "Отель",
+      "Хостел"
+    ],
+    "descriptions": [
+      "Уютная квартира на сутки с видом на городской парк",
+      "Стильный дом в центре города на неделю",
+      "Просторный офис в бизнес-центре на длительный срок",
+      "Комфортабельный номер в гостинице с завтраком включенным в стоимость",
+      "Аренда автомобиля на выходные с возможностью доставки к месту проживания",
+      "Отдельная комната в квартире семьи на месяц",
+      "Мини-гостиница на берегу моря с бассейном и барбекю",
+      "Аренда яхты на день для романтического путешествия по озеру",
+      "Комната для проведения тренинга или семинара в бизнес-центре",
+      "Аренда зала для свадебного торжества с кейтерингом и декорированием"
+    ],
+    "previewImages": [
+      "previewImage1.jpg",
+      "previewImage2.jpg",
+      "previewImage3.jpg",
+      "previewImage4.jpg",
+      "previewImage5.jpg"
+    ],
+    "images": [
+      "image1.jpg",
+      "image2.jpg",
+      "image3.jpg",
+      "image4.jpg",
+      "image5.jpg"
+    ],
+    "coordinates": {
+      "latitude": [2.4444, 3.4444, 5.6666],
+      "longitude": [8.4444, 4.4444, 56.6666]
+    },
+    "users" : {
+      "usernames": [
+        "Иван",
+        "Олег",
+        "Пьер",
+        "Роланд",
+        "Холи"
+      ],
+      "avatars": [
+        "avatar1.jpg",
+        "avatar2.jpg",
+        "avatar3.jpg",
+        "avatar4.jpg",
+        "avatar5.jpg"
+      ],
+      "emails": [
+        "snow@pisem.local",
+        "president@dka.local",
+        "fish@big.local",
+        "test@pisem.local",
+        "freedom@pisem.local",
+        "rolan@pochta.local",
+        "author@mir.local",
+        "test@lost.loca",
+        "kujo-fan@story.local"
+      ],
+      "passwords": [
+        "password1",
+        "password1",
+        "password1",
+        "password1",
+        "password1",
+        "password1"
+      ]
+    }
+  }
+}

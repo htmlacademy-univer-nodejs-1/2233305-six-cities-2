@@ -5,7 +5,7 @@ type ParsedCommand = {
 }
 
 export default class CLIApplication {
-  private commands: {[propertyName: string]: CliCommandInterface} = {};
+  private commands: { [propertyName: string]: CliCommandInterface } = {};
   private defaultCommand = '--help';
 
   private parseCommand(cliArguments: string[]): ParsedCommand {
