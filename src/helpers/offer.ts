@@ -17,7 +17,7 @@ export function createOffer(offer: string): OfferType {
     housingType,
     roomCount,
     guestCount,
-    price,
+    cost,
     facilities,
     offerAuthorName,
     offerAuthorAvatar,
@@ -40,7 +40,7 @@ export function createOffer(offer: string): OfferType {
     housingType: housingType as unknown as HousingType,
     roomCount: parseInt(roomCount, 10),
     guestCount: parseInt(guestCount, 10),
-    price: parseInt(price, 10),
+    cost: parseInt(cost, 10),
     facilities: facilities.split(',').map((x) => x as unknown as Facilities),
     offerAuthor: {
       username: offerAuthorName,

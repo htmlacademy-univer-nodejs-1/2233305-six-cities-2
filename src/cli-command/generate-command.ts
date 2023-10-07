@@ -1,6 +1,5 @@
 import { CliCommandInterface } from './cli-command.interface.js';
 import {MockData} from '../types/mock-data.type';
-import got from 'got';
 import OfferGenerator from '../modules/offer-generator.js';
 import TSVFileWriter from '../file-writer/tsv-file-writer.js';
 
@@ -12,7 +11,8 @@ export default class GenerateCommand implements CliCommandInterface {
     const [count, filepath, url] = parameters;
     const offerCount = Number.parseInt(count, 10);
     try {
-      this.initialData = await got.get(url).json();
+      const res = await fetch(url);
+      this.initialData = await res.json();
     } catch {
       console.log(`Can't get data from ${url}`);
     }

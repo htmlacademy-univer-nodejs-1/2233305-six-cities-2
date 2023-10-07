@@ -20,11 +20,13 @@
     "sourceMap": true,
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
     "types": [
       "node",
     ],
     "lib": [
-      "ESNext"
+      "ESNext",
+      "dom"
     ]
   },
   "include": [

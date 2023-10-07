@@ -7,8 +7,8 @@ import {HousingType} from '../types/housing-type.enum.js';
 import {Facilities} from '../types/facilities.enum.js';
 import {UserTypeEnum} from '../types/user-type.enum.js';
 
-const MIN_PRICE = 100;
-const MAX_PRICE = 100000;
+const MIN_COST = 100;
+const MAX_COST = 100000;
 const MIN_RATING = 1;
 const MAX_RATING = 5;
 const MIN_COUNT = 1;
@@ -35,7 +35,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const housingType = getRandomItem([HousingType.House, HousingType.Hotel, HousingType.Room, HousingType.Apartment]);
     const roomCount = generateRandomValue(MIN_COUNT_ROOM, MAX_COUNT_ROOM);
     const guestCount = generateRandomValue(MIN_COUNT, MAX_COUNT);
-    const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
+    const cost = generateRandomValue(MIN_COST, MAX_COST);
     const facilities = getRandomItems([Facilities.AirConditioning, Facilities.BabySeat, Facilities.Fridge]);
     const offerAuthorName = getRandomItem<string>(this.mockData.users.usernames);
     const offerAuthorAvatar = getRandomItem<string>(this.mockData.users.avatars);
@@ -50,7 +50,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       name, description, publicationDate,
       city, previewImage, images, premium,
       favorite, rating, housingType, roomCount,
-      guestCount, price, facilities, offerAuthorName,
+      guestCount, cost, facilities, offerAuthorName,
       offerAuthorAvatar, offerAuthorType, offerAuthorNameEmail,
       offerAuthorNamePassword, commentsCount, latitude, longitude
     ].join('\t');
