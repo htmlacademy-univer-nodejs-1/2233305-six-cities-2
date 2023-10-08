@@ -1,4 +1,4 @@
-import {CliCommandInterface} from './cli-command.interface';
+import {CliCommandInterface} from './cli-command.interface.js';
 import TSVFileReader from '../file-reader/tsv-file-reader.js';
 import {getErrorMessage} from '../helpers/common.js';
 import chalk from 'chalk';

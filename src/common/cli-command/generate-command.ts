@@ -1,6 +1,6 @@
-import { CliCommandInterface } from './cli-command.interface.js';
-import {MockData} from '../types/mock-data.type';
-import OfferGenerator from '../modules/offer-generator.js';
+import { CliCommandInterface } from './cli-command.interface';
+import {MockData} from '../../types/mock-data.type.js';
+import OfferGenerator from '../../modules/offer-generator.js';
 import TSVFileWriter from '../file-writer/tsv-file-writer.js';
 
 export default class GenerateCommand implements CliCommandInterface {

@@ -1,4 +1,4 @@
-import {generateRandomValue, getRandomItem, getRandomItems} from '../helpers/random.js';
+import {generateRandomValue, getRandomItem, getRandomItems} from '../common/helpers/random.js';
 import {MockData} from '../types/mock-data.type';
 import {OfferGeneratorInterface} from './offer-generator.interface.js';
 import dayjs from 'dayjs';
