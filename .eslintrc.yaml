@@ -11,8 +11,6 @@ plugins:
 extends:
   - "plugin:@typescript-eslint/recommended"
   - "htmlacademy/node"
-rules:
-  node/file-extension-in-import: off
 overrides:
   - files: ["*json"]
     rules:
