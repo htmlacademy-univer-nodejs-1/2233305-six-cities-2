@@ -14,7 +14,7 @@ export default class GenerateCommand implements CliCommandInterface {
       const res = await fetch(url);
       this.initialData = await res.json();
     } catch {
-      console.log(`Can't get data from ${url}`);
+      console.error(`Can't get data from ${url}`);
     }
     const offerGenerator = new OfferGenerator(this.initialData);
     const fileWriter = new TSVFileWriter(filepath);

@@ -23,7 +23,7 @@ export default class ImportCommand implements CliCommandInterface {
     try {
       await fileReader.read();
     } catch (err) {
-      console.log(`${chalk.redBright(`Can't read the file with error: ${getErrorMessage(err)}`)}`);
+      console.error(`${chalk.redBright(`Can't read the file with error: ${getErrorMessage(err)}`)}`);
     }
   }
 }
