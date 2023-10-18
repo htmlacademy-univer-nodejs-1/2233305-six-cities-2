@@ -11,6 +11,7 @@
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
     "start:dev": "npm run ts ./src/main.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "cli:dev": "ts-node ./src/main.cli.ts",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -45,6 +46,8 @@
     "convict": "6.2.4",
     "convict-format-with-validator": "6.2.0",
     "inversify": "6.0.1",
-    "reflect-metadata": "0.1.13"
+    "reflect-metadata": "0.1.13",
+    "mongoose": "7.1.1",
+    "@typegoose/typegoose": "11.1.0"
   }
 }
