@@ -6,17 +6,14 @@ import {CityEnum} from '../types/city.enum.js';
 import {HousingType} from '../types/housing-type.enum.js';
 import {Facilities} from '../types/facilities.enum.js';
 import {UserTypeEnum} from '../types/user-type.enum.js';
-
-const MIN_COST = 100;
-const MAX_COST = 100000;
-const MIN_RATING = 1;
-const MAX_RATING = 5;
-const MIN_COUNT = 1;
-const MAX_COUNT = 10;
-const MIN_COUNT_ROOM = 1;
-const MAX_COUNT_ROOM = 8;
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
+import {
+  FIRST_WEEK_DAY,
+  LAST_WEEK_DAY, MAX_COST, MAX_COUNT,
+  MAX_COUNT_ROOM,
+  MAX_RATING, MIN_COST, MIN_COUNT,
+  MIN_COUNT_ROOM,
+  MIN_RATING
+} from '../common/helpers/consts.js';
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockData) {
@@ -41,7 +38,6 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const offerAuthorAvatar = getRandomItem<string>(this.mockData.users.avatars);
     const offerAuthorType = getRandomItem([UserTypeEnum.pro, UserTypeEnum.simple]);
     const offerAuthorNameEmail = getRandomItem<string>(this.mockData.users.emails);
-    const offerAuthorNamePassword = getRandomItem<string>(this.mockData.users.passwords);
     const commentsCount = generateRandomValue(MIN_COUNT, MAX_COUNT);
     const latitude = getRandomItem<number>(this.mockData.coordinates.latitude);
     const longitude = getRandomItem<number>(this.mockData.coordinates.longitude);
@@ -52,7 +48,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       favorite, rating, housingType, roomCount,
       guestCount, cost, facilities, offerAuthorName,
       offerAuthorAvatar, offerAuthorType, offerAuthorNameEmail,
-      offerAuthorNamePassword, commentsCount, latitude, longitude
+      commentsCount, latitude, longitude
     ].join('\t');
   }
 }
