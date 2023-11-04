@@ -179,11 +179,11 @@ paths:
           description: Пользователь не авторизован
 
   /offers/favorite/{offerId}:
-    patch:
+    post:
       tags:
         - offers
-      summary: Добавление и удаление предложения в/из избранного
-      description: Добавление и удаление предложения в/из избранного.
+      summary: Добавление предложения в избранное.
+      description: Добавление предложения в избранное.
       parameters:
         - name: Token
           in: header
@@ -206,18 +206,45 @@ paths:
                   offerId:
                     type: string
                     example: ID
-      requestBody:
-        description: Изменение поля favorite.
+
+      responses:
+        "201":
+          description: create-offer.dto.ts
+        "400":
+          description: Предложение не добавлено в избранное
+  delete:
+    tags:
+      - offers
+    summary: Удаление предложения из избранного.
+    description: Удаление предложения из избранногое.
+    parameters:
+      - name: Token
+        in: header
+        description: Только для авторизованных пользователей
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/changeFavorite'
-        required: true
-      responses:
-        "201":
-          description: Статус предложения изменен
-        "400":
-          description: Статус предложения не изменен
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: TOKEN
+      - name: offerId
+        in: query
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offerId:
+                  type: string
+                  example: ID
+
+    responses:
+      "201":
+        description: Предложение удалено из избранного
+      "400":
+        description: Предложение не удалено из избранного
 
   /offers/create:
     post:
@@ -709,15 +736,6 @@ components:
         longitude:
           type: float
           example: 1.33345445
-
-    changeFavorite:
-      type: object
-
-      properties:
-        favorite:
-          type: boolean
-          example: true
-
 
     comment:
       type: object

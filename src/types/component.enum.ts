@@ -5,8 +5,8 @@ export const Component = {
   DatabaseClientInterface: Symbol.for('DatabaseClientInterface'),
   UserServiceInterface: Symbol.for('UserServiceInterface'),
   UserModel: Symbol.for('UserModel'),
-  CoordinatesServiceInterface: Symbol.for('CoordinatesServiceInterface'),
-  CoordinatesModel: Symbol.for('CoordinatesModel'),
   OfferServiceInterface: Symbol.for('OfferServiceInterface'),
-  OfferModel: Symbol.for('OfferModel')
+  OfferModel: Symbol.for('OfferModel'),
+  CommentServiceInterface: Symbol.for('CommentServiceInterface'),
+  CommentModel: Symbol.for('CommentModel')
 } as const;

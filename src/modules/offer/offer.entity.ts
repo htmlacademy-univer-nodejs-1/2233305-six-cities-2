@@ -65,9 +65,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public housingType!: HousingType;
 
   @prop({
-    type: Array<string>, minCount: [6, 'Images should be 6'],
-    maxCount: [6, 'Images should be 6'],
-    allowMixed: Severity.ALLOW
+    type: () => String, minCount: [6, 'Images should be 6'],
+    maxCount: [6, 'Images should be 6']
   })
   public images!: string[];
 
