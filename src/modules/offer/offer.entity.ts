@@ -48,8 +48,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public favorite!: boolean;
 
   @prop({
-    required: true, min: [1, 'Min length for username is 1'],
-    max: [10, 'Max length for username is 10']
+    required: true, min: [1, 'Min count of guests is 1'],
+    max: [10, 'Max count of guests is 10']
   })
   public guestCount!: number;
 
@@ -66,7 +66,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [10, 'Min length for name is 10'],
-    maxlength: [100, 'Max length for username is 15']
+    maxlength: [100, 'Max length for name is 15']
   })
   public name!: string;
 
@@ -79,21 +79,21 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true, default: false})
   public premium!: boolean;
 
-  @prop({required: true, match: [/.*\.(?:jpg|png)/, 'Avatar must be jpg or png']})
+  @prop({required: true, match: [/.*\.(?:jpg|png)/, 'Image must be jpg or png']})
   public previewImage!: string;
 
   @prop({required: true})
   public publicationDate!: Date;
 
   @prop({
-    required: true, min: [1, 'Min length for rating is 1'],
-    max: [5, 'Max length for rating is 5']
+    required: true, min: [1, 'Min rating is 1'],
+    max: [5, 'Max rating is 5']
   })
   public rating!: number;
 
   @prop({
-    required: true, min: [1, 'Min length for room count is 1'],
-    max: [8, 'Max length for room count is 8']
+    required: true, min: [1, 'Min room count is 1'],
+    max: [8, 'Max room count is 8']
   })
   public roomCount!: number;
 
