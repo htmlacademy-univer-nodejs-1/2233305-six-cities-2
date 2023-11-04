@@ -13,7 +13,8 @@ export default class CommentService implements CommentServiceInterface {
   constructor(
     @inject(Component.CommentModel) private readonly commentModel: types.ModelType<CommentEntity>,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface
-  ) {}
+  ) {
+  }
 
   public async createForOffer(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
@@ -36,6 +37,7 @@ export default class CommentService implements CommentServiceInterface {
       .populate('authorId')
       .limit(COMMENTS_COUNT);
   }
+
   public async deleteByOfferId(offerId: string): Promise<number> {
     const result = await this.commentModel
       .deleteMany({offerId})
