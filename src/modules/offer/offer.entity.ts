@@ -27,7 +27,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({default: 0})
   public commentsCount!: number;
 
-  @prop()
+  @prop({
+    required: true,
+    min: [100, 'Min cost is 100'],
+    max: [100000, 'Max cost is 100000']
+  })
   public cost!: number;
 
   @prop({
@@ -60,7 +64,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public housingType!: HousingType;
 
-  @prop({type: String, allowMixed: Severity.ALLOW})
+  @prop({
+    type: Array<string>, minCount: [6, 'Images should be 6'],
+    maxCount: [6, 'Images should be 6'],
+    allowMixed: Severity.ALLOW
+  })
   public images!: string[];
 
   @prop({
