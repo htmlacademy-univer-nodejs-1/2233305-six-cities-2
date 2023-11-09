@@ -5,9 +5,11 @@ import {Container} from 'inversify';
 import {createUserContainer} from './modules/user/user.container.js';
 import {createApplicationContainer} from './app/api.container.js';
 import {createOfferContainer} from './modules/offer/offer.container.js';
+import {createCommentContainer} from './modules/comments/comment.container.js';
 
 const mainContainer = Container.merge(createApplicationContainer(),
   createUserContainer(),
-  createOfferContainer());
+  createOfferContainer(),
+  createCommentContainer());
 const application = mainContainer.get<Application>(Component.Application);
 await application.init();
