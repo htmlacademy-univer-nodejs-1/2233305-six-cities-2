@@ -39,10 +39,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-
-        "409":
+        "400":
           description: Пользователь с таким email уже существует.
-
 
   /users/login:
     post:
@@ -69,26 +67,15 @@ paths:
                     type: string
                     example: TOKEN
 
-        "409":
+        "401":
           description: Авторизация не пройдена
     get:
       tags:
         - users
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю
-      parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          example: TOKEN
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
+      security:
+        - Bearer: [ ]
       responses:
         "200":
           description: Пользователь авторизован
@@ -97,27 +84,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-        "400":
+        "401":
           description: Пользователь не авторизован
+
   /users/logout:
     post:
       tags:
         - users
       summary: Выход из закрытой части приложения
       description: Выход из закрытой части приложения (только если авторизация выполняется на основе сессий)
-      parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          example: TOKEN
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
       responses:
         "204":
           description: Сессия завершена
@@ -136,8 +111,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
-                    city: string
+                  City:
+                    type: string
                     example: Paris
           description: Город
       responses:
@@ -148,7 +123,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/offers'
         "404":
-          description: Список предложений не получен
+          description: Список предложений для city не получен
 
   /offers/favorite:
     get:
@@ -156,18 +131,8 @@ paths:
         - offers
       summary: Список избранных предложений
       description: Возвращает массив предложений, добавленных в избранное.
-      parameters:
-        - name: token
-          in: header
-          description: Только для авторизованных пользователей
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
+      security:
+        - Bearer: [ ]
       responses:
         "200":
           description: Список избранных предложений
@@ -175,7 +140,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offers'
-        "404":
+        "401":
           description: Пользователь не авторизован
 
   /offers/favorite/{offerId}:
@@ -184,18 +149,9 @@ paths:
         - offers
       summary: Добавление предложения в избранное.
       description: Добавление предложения в избранное.
+      security:
+        - Bearer: [ ]
       parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
         - name: offerId
           in: query
           content:
@@ -209,26 +165,19 @@ paths:
 
       responses:
         "201":
-          description: create-offer.dto.ts
-        "400":
-          description: Предложение не добавлено в избранное
+          description: Предложение добавлено в избранное
+        "404":
+          description: Предложение с offerId не найдено
+        "401":
+          description: Пользователь не авторизован
   delete:
     tags:
       - offers
     summary: Удаление предложения из избранного.
     description: Удаление предложения из избранногое.
+    security:
+      - Bearer: [ ]
     parameters:
-      - name: Token
-        in: header
-        description: Только для авторизованных пользователей
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  example: TOKEN
       - name: offerId
         in: query
         content:
@@ -243,8 +192,10 @@ paths:
     responses:
       "201":
         description: Предложение удалено из избранного
-      "400":
-        description: Предложение не удалено из избранного
+      "401":
+        description: Пользователь не авторизован
+      "500":
+        description: Предложение не удалено из избранного по внутренним причинам
 
   /offers/create:
     post:
@@ -252,19 +203,8 @@ paths:
         - offers
       summary: Создание нового предложения
       description: Создание нового предложения
-      parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          example: TOKEN
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
+      security:
+        - Bearer: [ ]
       requestBody:
         description: Данные для создания предложения.
         content:
@@ -279,8 +219,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
-        "409":
-          description: Предложение не создано
+        "400":
+          description: Предложение не создано. Переданы невалидные данные
+        "401":
+          description: Пользователь не авторизован
 
   /offers/{offerId}:
     post:
@@ -288,18 +230,9 @@ paths:
         - offers
       summary: Редактирование предложения
       description: Редактирование предложения
+      security:
+        - Bearer: [ ]
       parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
         - name: offerId
           in: query
           content:
@@ -325,31 +258,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/editOffer'
         "400":
-          description: Предложение не изменено
+          description: Предложение не изменено. Переданы невалидные данные
+        "401":
+          description: Пользователь не авторизован
+        "404":
+          description: Предложение с offerId не найдено
 
     delete:
       tags:
         - offers
       summary: Удаление предложения
       description: Удаление предложения
-      parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
-          example: TOKEN
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: TOKEN
+      security:
+        - Bearer: [ ]
       responses:
         "204":
           description: Предложение удалено
-        "400":
-          description: Предложение не удалено
+        "500":
+          description: Предложение не удалено по каким-то внутренним причинам
+        "401":
+          description: Пользователь не авторизован
 
     get:
       tags:
@@ -375,6 +303,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
+        "404":
+          description: Предложение с offerId не найдено
 
   /offers:
     get:
@@ -428,27 +358,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comments'
-        "400":
-          description: Список комментариев не получен
+        "404":
+          description: Не удалось найти предложение по offerId
 
-  /comment:
     post:
       tags:
         - comments
       summary: Добавление комментария
       description: Добавление комментария
+      security:
+        - Bearer: [ ]
       parameters:
-        - name: Token
-          in: header
-          description: Только для авторизованных пользователей
+        - name: offerId
+          in: query
+          description: OFFER ID
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  offerId:
                     type: string
-                    example: TOKEN
+                    example: ID
       requestBody:
         description: Добавление комментария
         content:
@@ -463,11 +394,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comment'
-        "400":
-          description: Комментарий не добавлен
+        "404":
+          description: Не удалось найти предложение по offerId
+        "401":
+          description: Пользователь не авторизован
 
 
 components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      in: header
+      description: Токен для проверки авторизации
+
   schemas:
     createUser:
       type: object
@@ -736,6 +676,15 @@ components:
         longitude:
           type: float
           example: 1.33345445
+
+    changeFavorite:
+      type: object
+
+      properties:
+        favorite:
+          type: boolean
+          example: true
+
 
     comment:
       type: object
