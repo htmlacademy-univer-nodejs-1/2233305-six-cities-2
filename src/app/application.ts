@@ -35,7 +35,7 @@ export default class Application {
     const port = this.config.get('PORT');
     this.expressApplication.listen(port);
 
-    this.logger.info(`Сервер успешно стартован на http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Сервер успешно стартовал на http://localhost:${this.config.get('PORT')}`);
   }
 
   private async _initRoutes() {
