@@ -48,9 +48,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public facilities!: Facilities[];
 
-  @prop({required: true, default: false})
-  public favorite!: boolean;
-
   @prop({
     required: true, min: [1, 'Min count of guests is 1'],
     max: [10, 'Max count of guests is 10']
