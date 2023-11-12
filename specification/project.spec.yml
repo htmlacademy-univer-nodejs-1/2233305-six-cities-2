@@ -97,38 +97,10 @@ paths:
         "204":
           description: Сессия завершена
 
-  /offers/premium/{city}:
+  /users/favorite:
     get:
       tags:
-        - offers
-      summary: Премиальные предложения для города
-      description: Возвращает не больше 3 предложений с флагом «Premium».
-      parameters:
-        - name: city
-          in: query
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  City:
-                    type: string
-                    example: Paris
-          description: Город
-      responses:
-        "200":
-          description: Премиальные предложения для города
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/offers'
-        "404":
-          description: Список предложений для city не получен
-
-  /offers/favorite:
-    get:
-      tags:
-        - offers
+        - users
       summary: Список избранных предложений
       description: Возвращает массив предложений, добавленных в избранное.
       security:
@@ -143,26 +115,14 @@ paths:
         "401":
           description: Пользователь не авторизован
 
-  /offers/favorite/{offerId}:
+  /users/favorite/{offerId}:
     post:
       tags:
-        - offers
+        - users
       summary: Добавление предложения в избранное.
       description: Добавление предложения в избранное.
       security:
         - Bearer: [ ]
-      parameters:
-        - name: offerId
-          in: query
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  offerId:
-                    type: string
-                    example: ID
-
       responses:
         "201":
           description: Предложение добавлено в избранное
@@ -177,17 +137,6 @@ paths:
     description: Удаление предложения из избранногое.
     security:
       - Bearer: [ ]
-    parameters:
-      - name: offerId
-        in: query
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                offerId:
-                  type: string
-                  example: ID
 
     responses:
       "201":
@@ -197,32 +146,22 @@ paths:
       "500":
         description: Предложение не удалено из избранного по внутренним причинам
 
-  /offers/create:
-    post:
+  /offers/premium/{city}:
+    get:
       tags:
         - offers
-      summary: Создание нового предложения
-      description: Создание нового предложения
-      security:
-        - Bearer: [ ]
-      requestBody:
-        description: Данные для создания предложения.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/offer'
-        required: true
+      summary: Премиальные предложения для города
+      description: Возвращает не больше 3 предложений с флагом «Premium».
       responses:
         "200":
-          description: Предложение создано
+          description: Премиальные предложения для города
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offer'
-        "400":
-          description: Предложение не создано. Переданы невалидные данные
-        "401":
-          description: Пользователь не авторизован
+                $ref: '#/components/schemas/offers'
+        "404":
+          description: Список предложений для city не получен
+
 
   /offers/{offerId}:
     post:
@@ -232,17 +171,6 @@ paths:
       description: Редактирование предложения
       security:
         - Bearer: [ ]
-      parameters:
-        - name: offerId
-          in: query
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  offerId:
-                    type: string
-                    example: ID
       requestBody:
         description: Данные для редактирования предложения.
         content:
@@ -284,18 +212,7 @@ paths:
         - offers
       summary: Детальная информация по предложению
       description: Детальная информация по предложению
-      parameters:
-        - name: offerId
-          in: query
-          description: OFFER ID
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  offerId:
-                    type: string
-                    example: ID
+
       responses:
         "200":
           description: Детальная информация по предложению
@@ -331,7 +248,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offers'
-
+    post:
+      tags:
+        - offers
+      summary: Создание нового предложения
+      description: Создание нового предложения
+      security:
+        - Bearer: [ ]
+      requestBody:
+        description: Данные для создания предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+      responses:
+        "200":
+          description: Предложение создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "400":
+          description: Предложение не создано. Переданы невалидные данные
+        "401":
+          description: Пользователь не авторизован
 
   /comments/{offerId}:
     get:
@@ -339,18 +280,7 @@ paths:
         - comments
       summary: Список комментариев для предложения
       description: Список комментариев для предложения
-      parameters:
-        - name: offerId
-          in: query
-          description: OFFER ID
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  offerId:
-                    type: string
-                    example: ID
+
       responses:
         "200":
           description: Список комментариев для предложения успешно получен
