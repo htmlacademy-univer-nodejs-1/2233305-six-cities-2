@@ -36,6 +36,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
+    trim: true,
     minlength: [20, 'Min length for description is 20'],
     maxlength: [1024, 'Max length for description is 1024']
   })
@@ -62,13 +63,14 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public housingType!: HousingType;
 
   @prop({
-    type: () => String, minCount: [6, 'Images should be 6'],
+    type: () => [String], minCount: [6, 'Images should be 6'],
     maxCount: [6, 'Images should be 6']
   })
   public images!: string[];
 
   @prop({
     required: true,
+    trim: true,
     minlength: [10, 'Min length for name is 10'],
     maxlength: [100, 'Max length for name is 15']
   })
@@ -83,10 +85,10 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true, default: false})
   public premium!: boolean;
 
-  @prop({required: true, match: [/.*\.(?:jpg|png)/, 'Image must be jpg or png']})
+  @prop({required: true})
   public previewImage!: string;
 
-  @prop({required: true})
+  @prop({ required: true })
   public publicationDate!: Date;
 
   @prop({

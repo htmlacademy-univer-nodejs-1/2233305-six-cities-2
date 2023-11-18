@@ -3,7 +3,7 @@ import {DocumentType, types} from '@typegoose/typegoose';
 import {CommentServiceInterface} from './comment-service.interface.js';
 import {Component} from '../../types/component.enum.js';
 import {CommentEntity} from './comment.entity';
-import CreateCommentDto from './dto/create-offer.dto.js';
+import CreateCommentDto from './dto/create-comment.dto';
 import {OfferServiceInterface} from '../offer/offer-service.interface.js';
 import {SortType} from '../../types/sort-type.enum.js';
 
