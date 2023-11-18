@@ -41,17 +41,18 @@ test('POST /register', async (tc) => {
   const {port} = server.address() as AddressInfo;
   const url = new URL('/register', `http://0.0.0.0:${port}`);
 
-  const srv = container.get<Mocked<UserServiceInterface>>(Component.UserServiceInterface);
-  srv.create.mockImplementationOnce(async (dto) => new UserEntity(dto) as DocumentType<UserEntity>);
+  // const srv = container.get<Mocked<UserServiceInterface>>(AppComponent.UserServiceInterface);
+  // srv.create.mockImplementationOnce(async (dto) => new UserEntity(dto) as DocumentType<UserEntity>);
 
   const response = await fetch(url, {
     method: 'POST',
     headers: new Headers([['content-type', 'application/json']]),
     body: JSON.stringify({
-      username: 'test',
+      name: 'test',
       email: 'test@email.com',
-      type: UserTypeEnum.simple,
-      password: 'MySuperStrong',
+      avatar: 'myface.com',
+      userType: 'test',
+      password: 'MySuperStrongPassword',
     } satisfies CreateUserDto)
   });
 

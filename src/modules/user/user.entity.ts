@@ -14,7 +14,7 @@ export interface UserEntity extends defaultClasses.Base {
   }
 })
 export class UserEntity extends defaultClasses.TimeStamps implements UserType {
-  @prop({unique: true, required: true, match: [/^.+@.+$/, 'Email is incorrect']})
+  @prop({unique: true, required: true})
   public email: string;
 
   @prop({required: false, default: '', match: [/.*\.(?:jpg|png)/, 'Avatar must be jpg or png']})
