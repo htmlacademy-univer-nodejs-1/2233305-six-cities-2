@@ -1,12 +1,14 @@
-import {UserEntity} from './user.entity.js';
-import {DocumentType} from '@typegoose/typegoose/lib/types.js';
+import 'reflect-metadata';
+
+import { types } from '@typegoose/typegoose';
+import { DocumentType } from '@typegoose/typegoose/lib/types.js';
+import { inject, injectable } from 'inversify';
+import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { Component } from '../../types/component.enum.js';
+import { OfferEntity } from '../offer/offer.entity.js';
 import CreateUserDto from './dto/create-user.dto.js';
-import {UserServiceInterface} from './user-service.interface.js';
-import {inject, injectable} from 'inversify';
-import {Component} from '../../types/component.enum.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {types} from '@typegoose/typegoose';
-import {OfferEntity} from '../offer/offer.entity.js';
+import { UserServiceInterface } from './user-service.interface.js';
+import { UserEntity } from './user.entity.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {

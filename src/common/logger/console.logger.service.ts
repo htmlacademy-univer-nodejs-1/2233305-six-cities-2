@@ -1,5 +1,7 @@
+import { injectable } from 'inversify';
 import { LoggerInterface } from './logger.interface.js';
 
+@injectable()
 export default class ConsoleLoggerService implements LoggerInterface {
   public debug(message: string, ...args: unknown[]): void {
     console.debug(message, ...args);

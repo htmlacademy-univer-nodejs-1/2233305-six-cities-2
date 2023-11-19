@@ -1,22 +1,24 @@
-import {inject, injectable} from 'inversify';
-import {Request, Response} from 'express';
-import {Component} from '../../types/component.enum.js';
-import {Controller} from '../../common/controller/controller.abstract.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {HttpMethod} from '../../types/http.methods.enum.js';
-import {fillDTO} from '../../common/helpers/common.js';
-import {OfferRdo} from './rdo/offer.rdo.js';
-import UpdateOfferDto from './dto/update-offer.dto.js';
-import {OfferServiceInterface} from './offer-service.interface.js';
-import {UserServiceInterface} from '../user/user-service.interface.js';
-import {CommentServiceInterface} from '../comments/comment-service.interface';
-import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
-import {ValidateDtoMiddleware} from '../../common/middleware/validate-dto.middleware.js';
-import {DocumentExistsMiddleware} from '../../common/middleware/document-exists.middleware.js';
-import {CreateOfferRequest} from './type/create-offer.request.js';
+import 'reflect-metadata';
+
+import { Request, Response } from 'express';
+import { inject, injectable } from 'inversify';
+import { Controller } from '../../common/controller/controller.abstract.js';
+import { fillDTO } from '../../common/helpers/common.js';
+import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { DocumentExistsMiddleware } from '../../common/middleware/document-exists.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
+import { ValidateObjectIdMiddleware } from '../../common/middleware/validate-objectid.middleware.js';
+import { Component } from '../../types/component.enum.js';
+import { HttpMethod } from '../../types/http.methods.enum.js';
+import { ParamsCity, ParamsOffer, ParamsOffersCount } from '../../types/params.type.js';
+import { CommentServiceInterface } from '../comments/comment-service.interface';
+import { UserServiceInterface } from '../user/user-service.interface.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
-import {ParamsCity, ParamsOffer, ParamsOffersCount} from '../../types/params.type.js';
-import {FavoriteOfferShortDto} from './rdo/favorite-offer-short.dto.js';
+import UpdateOfferDto from './dto/update-offer.dto.js';
+import { OfferServiceInterface } from './offer-service.interface.js';
+import { FavoriteOfferShortDto } from './rdo/favorite-offer-short.dto.js';
+import { OfferRdo } from './rdo/offer.rdo.js';
+import { CreateOfferRequest } from './type/create-offer.request.js';
 
 @injectable()
 export default class OfferController extends Controller {
