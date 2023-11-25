@@ -11,7 +11,7 @@
   "scripts": {
     "start": "npm run build && node ./dist/src/main.js",
     "start:dev": "nodemon",
-    "cli": "ts-node ./src/main.cli.ts",
+    "cli": "node --loader ts-node/esm ./src/main.cli.ts",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",

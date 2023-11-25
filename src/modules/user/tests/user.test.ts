@@ -6,7 +6,6 @@ import { AddressInfo } from 'node:net';
 
 import { DocumentType } from '@typegoose/typegoose';
 import express from 'express';
-import ConsoleLoggerService from '../../../common/logger/console.logger.service.js';
 import { LoggerInterface } from '../../../common/logger/logger.interface.js';
 import { Component } from '../../../types/component.enum.js';
 import { UserTypeEnum } from '../../../types/user-type.enum.js';
@@ -16,10 +15,11 @@ import { createUserContainer } from '../user.container.js';
 import UserController from '../user.controller.js';
 import { UserEntity } from '../user.entity.js';
 import MockConfigService from './mock.config.service.js';
-import MockUserService from './mock.service.js';
+import MockUserService from './mock.user.service.js';
+import LoggerService from '../../../common/logger/logger.service.js';
 
 const container = createUserContainer();
-container.bind<LoggerInterface>(Component.LoggerInterface).to(ConsoleLoggerService).inSingletonScope();
+container.bind<LoggerInterface>(Component.LoggerInterface).to(LoggerService).inSingletonScope();
 container.bind(Component.ConfigInterface).toConstantValue(new MockConfigService({SALT: 'НеСыпьМнеСольНаРану'}));
 container.rebind<UserServiceInterface>(Component.UserServiceInterface).to(MockUserService).inSingletonScope();
 
@@ -50,7 +50,7 @@ test('POST /register', async (tc) => {
       email: 'test@email.com',
       username: 'test',
       type: UserTypeEnum.simple,
-      password: 'MySuperStrongPassword',
+      password: 'password',
     } satisfies CreateUserDto)
   });
 
@@ -63,9 +63,9 @@ test('POST /register', async (tc) => {
   const result = await response.json();
 
   tc.expect(result).toStrictEqual({
-    name: 'test',
     email: 'test@email.com',
-    avatarPath: 'myface.com'
+    username: 'test',
+    type: UserTypeEnum.simple,
   });
 });
 
