@@ -1,22 +1,22 @@
 import 'reflect-metadata';
-import {afterAll, beforeAll, Mocked, test} from 'vitest';
+import { Mocked, afterAll, beforeAll, test } from 'vitest';
 
+import { Server } from 'node:http';
+import { AddressInfo } from 'node:net';
+
+import { DocumentType } from '@typegoose/typegoose';
 import express from 'express';
-import {Server} from 'node:http';
-import {AddressInfo} from 'node:net';
-import MockUserService from './mock.user.service.js';
-import {fetch, Headers} from 'undici';
-import {DocumentType} from '@typegoose/typegoose';
-import {createUserContainer} from '../user.container.js';
-import {LoggerInterface} from '../../../common/logger/logger.interface.js';
-import {Component} from '../../../types/component.enum.js';
 import ConsoleLoggerService from '../../../common/logger/console.logger.service.js';
-import MockConfigService from '../../../common/config/mock.config.service.js';
-import {UserServiceInterface} from '../user-service.interface.js';
-import UserController from '../user.controller.js';
-import {UserEntity} from '../user.entity.js';
+import { LoggerInterface } from '../../../common/logger/logger.interface.js';
+import { Component } from '../../../types/component.enum.js';
+import { UserTypeEnum } from '../../../types/user-type.enum.js';
 import CreateUserDto from '../dto/create-user.dto.js';
-import {UserTypeEnum} from '../../../types/user-type.enum.js';
+import { UserServiceInterface } from '../user-service.interface.js';
+import { createUserContainer } from '../user.container.js';
+import UserController from '../user.controller.js';
+import { UserEntity } from '../user.entity.js';
+import MockConfigService from './mock.config.service.js';
+import MockUserService from './mock.service.js';
 
 const container = createUserContainer();
 container.bind<LoggerInterface>(Component.LoggerInterface).to(ConsoleLoggerService).inSingletonScope();
@@ -47,10 +47,10 @@ test('POST /register', async (tc) => {
     method: 'POST',
     headers: new Headers([['content-type', 'application/json']]),
     body: JSON.stringify({
-      username: 'name',
       email: 'test@email.com',
+      username: 'test',
       type: UserTypeEnum.simple,
-      password: 'myPassword',
+      password: 'MySuperStrongPassword',
     } satisfies CreateUserDto)
   });
 
@@ -63,9 +63,10 @@ test('POST /register', async (tc) => {
   const result = await response.json();
 
   tc.expect(result).toStrictEqual({
-    username: 'name',
+    name: 'test',
     email: 'test@email.com',
-    type: 'simple'
+    avatarPath: 'myface.com'
   });
 });
 
+test.todo('POST /register');

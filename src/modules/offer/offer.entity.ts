@@ -1,9 +1,9 @@
-import typegoose, {defaultClasses, getModelForClass, Ref, Severity} from '@typegoose/typegoose';
-import {CityEnum} from '../../types/city.enum.js';
-import {Facilities} from '../../types/facilities.enum.js';
-import {HousingType} from '../../types/housing-type.enum.js';
-import {UserEntity} from '../user/user.entity.js';
-import {CoordinatesType} from '../../types/coordinates.type.js';
+import typegoose, { defaultClasses, getModelForClass, mongoose, Ref, Severity } from '@typegoose/typegoose';
+import { CityEnum } from '../../types/city.enum.js';
+import { CoordinatesType } from '../../types/coordinates.type.js';
+import { Facilities } from '../../types/facilities.enum.js';
+import { HousingType } from '../../types/housing-type.enum.js';
+import { UserEntity } from '../user/user.entity.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -16,15 +16,14 @@ export interface OfferEntity extends defaultClasses.Base {
   }
 })
 export class OfferEntity extends defaultClasses.TimeStamps {
-
   @prop({
-    required: true,
     type: () => String,
+    required: true,
     enum: CityEnum
   })
   public city!: CityEnum;
 
-  @prop({default: 0, type: () => Number})
+  @prop({type: () => Number, default: 0})
   public commentsCount!: number;
 
   @prop({
@@ -45,8 +44,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public description!: string;
 
   @prop({
-    required: true,
     type: () => String,
+    required: true,
     enum: Facilities
   })
   public facilities!: Facilities[];
@@ -59,14 +58,15 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public guestCount!: number;
 
   @prop({
-    required: true,
     type: () => String,
+    required: true,
     enum: HousingType
   })
   public housingType!: HousingType;
 
   @prop({
-    type: () => [String], minCount: [6, 'Images should be 6'],
+    type: () => [String],
+    minCount: [6, 'Images should be 6'],
     maxCount: [6, 'Images should be 6']
   })
   public images!: string[];
@@ -81,20 +81,19 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public name!: string;
 
   @prop({
-    type: () => String,
     ref: UserEntity,
     required: true
   })
   public userId!: Ref<UserEntity>;
 
-  @prop({
-    type: () => Boolean,
-    required: true,
-    default: false})
+  @prop({type: () => Boolean, required: true, default: false})
   public premium!: boolean;
 
-  @prop({required: true, type: () => String})
+  @prop({type: () => String, required: true})
   public previewImage!: string;
+
+  @prop({type: () => Date, required: true })
+  public publicationDate!: Date;
 
   @prop({
     type: () => Number,
@@ -111,7 +110,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public roomCount!: number;
 
   @prop({
-    type: () => Number,
+    type: () => mongoose.Schema.Types.Mixed,
     required: true,
     allowMixed: Severity.ALLOW
   })

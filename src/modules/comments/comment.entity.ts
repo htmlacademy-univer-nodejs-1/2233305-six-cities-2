@@ -1,6 +1,6 @@
-import typegoose, {getModelForClass, Ref, defaultClasses} from '@typegoose/typegoose';
-import {UserEntity} from '../user/user.entity.js';
-import {OfferEntity} from '../offer/offer.entity.js';
+import typegoose, { Ref, defaultClasses, getModelForClass } from '@typegoose/typegoose';
+import { OfferEntity } from '../offer/offer.entity.js';
+import { UserEntity } from '../user/user.entity.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -21,17 +21,15 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   public text!: string;
 
   @prop({
-    type: () => OfferEntity,
     ref: OfferEntity,
     required: true
   })
   public offerId!: Ref<OfferEntity>;
 
-  @prop({required: true, type: () => Date})
+  @prop({type: () => Date,required: true})
   public publicationDate!: Date;
 
   @prop({
-    type: () => UserEntity,
     ref: UserEntity,
     required: true,
   })

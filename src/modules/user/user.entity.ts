@@ -1,7 +1,7 @@
-import typegoose, {defaultClasses, getModelForClass} from '@typegoose/typegoose';
-import {UserType} from '../../types/user.type.js';
-import {UserTypeEnum} from '../../types/user-type.enum.js';
-import {createSHA256} from '../../common/helpers/common.js';
+import typegoose, { defaultClasses, getModelForClass } from '@typegoose/typegoose';
+import { createSHA256 } from '../../common/helpers/common.js';
+import { UserTypeEnum } from '../../types/user-type.enum.js';
+import { UserType } from '../../types/user.type.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -17,11 +17,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
   @prop({type: () => String, unique: true, required: true})
   public email: string;
 
-  @prop({
-    type: () => String,
-    required: false, default: '',
-    match: [/.*\.(?:jpg|png)/, 'Avatar must be jpg or png']
-  })
+  @prop({type: () => String, required: false, default: '', match: [/.*\.(?:jpg|png)/, 'Avatar must be jpg or png']})
   public avatar?: string;
 
   @prop({
@@ -33,21 +29,21 @@ export class UserEntity extends defaultClasses.TimeStamps implements UserType {
   public username: string;
 
   @prop({
-    required: true,
     type: () => String,
+    required: true,
     enum: UserTypeEnum
   })
   public type: UserTypeEnum;
 
   @prop({
+    type: () => [String],
     required: true,
-    type: () => String,
   })
   public favorite!: string[];
 
   @prop({
-    required: true,
     type: () => String,
+    required: true,
     minlength: [6, 'Min length for password is 6'],
     maxlength: [12, 'Max length for password is 12']
   })
