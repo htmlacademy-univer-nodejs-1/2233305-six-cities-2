@@ -11,4 +11,5 @@ export default class MockUserService implements UserServiceInterface {
   public findById = vi.fn();
   public findFavorites = vi.fn();
   public removeFromFavoritesById = vi.fn();
+  public verifyUser = vi.fn();
 }

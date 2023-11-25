@@ -9,6 +9,7 @@ import { OfferEntity } from '../offer/offer.entity.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { UserEntity } from './user.entity.js';
+import LoginUserDto from './dto/login-user.dto.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -36,7 +37,7 @@ export default class UserService implements UserServiceInterface {
     }
 
     return this.userModel
-      .find({_id: { $in: offers.favorite }});
+      .find({_id: { $in: offers.favorite }}).populate('offerId');
   }
 
   public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
@@ -55,6 +56,20 @@ export default class UserService implements UserServiceInterface {
 
   public async findById(userId: string): Promise<DocumentType<UserEntity> | null> {
     return this.userModel.findOne({'_id': userId});
+  }
+
+  public async verifyUser(dto: LoginUserDto, salt: string): Promise<DocumentType<UserEntity> | null> {
+    const user = await this.findByEmail(dto.email);
+
+    if (! user) {
+      return null;
+    }
+
+    if (user.verifyPassword(dto.password, salt)) {
+      return user;
+    }
+
+    return null;
   }
 
   public addToFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null> {

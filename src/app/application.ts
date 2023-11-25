@@ -9,6 +9,7 @@ import {getConnectionString} from '../common/helpers/common.js';
 import express, {Express} from 'express';
 import {ControllerInterface} from '../common/controller/controller.interface.js';
 import {ExceptionFilter} from '../common/http/exception-fliter.interface.js';
+import {AuthenticateMiddleware} from '../common/middleware/authenticate.middleware.js';
 
 
 @injectable()
@@ -56,6 +57,8 @@ export default class Application {
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   private async _initExceptionFilters() {
