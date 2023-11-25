@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
-import {ConfigInterface} from '../../../common/config/config.interface';
-import {ConfigSchema} from '../../../common/config/config.schema';
+import {ConfigInterface} from './config.interface';
+import {ConfigSchema} from './config.schema';
 @injectable()
 export default class MockConfigService implements ConfigInterface<ConfigSchema> {
   private readonly config: ConfigSchema;

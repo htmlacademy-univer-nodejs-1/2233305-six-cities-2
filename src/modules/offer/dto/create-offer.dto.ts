@@ -5,7 +5,7 @@ import {CoordinatesType} from '../../../types/coordinates.type.js';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsBoolean, IsDateString,
+  IsBoolean,
   IsEnum,
   IsObject,
   IsString,
@@ -26,9 +26,6 @@ export default class CreateOfferDto {
 
   @IsEnum(CityEnum, {message: 'type must be one of the city'})
   public city!: CityEnum;
-
-  @IsDateString({}, {message: 'postDate must be a valid ISO string'})
-  public publicationDate!: Date;
 
   @IsString({message: 'preview path is required.'})
   public previewImage!: string;

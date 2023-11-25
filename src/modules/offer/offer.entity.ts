@@ -24,10 +24,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: CityEnum;
 
-  @prop({default: 0})
+  @prop({default: 0, type: () => Number})
   public commentsCount!: number;
 
   @prop({
+    type: () => Number,
     required: true,
     min: [100, 'Min cost is 100'],
     max: [100000, 'Max cost is 100000']
@@ -35,6 +36,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public cost!: number;
 
   @prop({
+    type: () => String,
     required: true,
     trim: true,
     minlength: [20, 'Min length for description is 20'],
@@ -50,6 +52,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public facilities!: Facilities[];
 
   @prop({
+    type: () => Number,
     required: true, min: [1, 'Min count of guests is 1'],
     max: [10, 'Max count of guests is 10']
   })
@@ -69,6 +72,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public images!: string[];
 
   @prop({
+    type: () => String,
     required: true,
     trim: true,
     minlength: [10, 'Min length for name is 10'],
@@ -77,33 +81,37 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public name!: string;
 
   @prop({
+    type: () => String,
     ref: UserEntity,
     required: true
   })
   public userId!: Ref<UserEntity>;
 
-  @prop({required: true, default: false})
+  @prop({
+    type: () => Boolean,
+    required: true,
+    default: false})
   public premium!: boolean;
 
-  @prop({required: true})
+  @prop({required: true, type: () => String})
   public previewImage!: string;
 
-  @prop({ required: true })
-  public publicationDate!: Date;
-
   @prop({
+    type: () => Number,
     required: true, min: [1, 'Min rating is 1'],
     max: [5, 'Max rating is 5']
   })
   public rating!: number;
 
   @prop({
+    type: () => Number,
     required: true, min: [1, 'Min room count is 1'],
     max: [8, 'Max room count is 8']
   })
   public roomCount!: number;
 
   @prop({
+    type: () => Number,
     required: true,
     allowMixed: Severity.ALLOW
   })
