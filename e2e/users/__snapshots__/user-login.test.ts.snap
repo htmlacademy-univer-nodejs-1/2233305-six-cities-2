@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`POST /users/login > Invalid password or email 1`] = `
+{
+  "error": "Unauthorized",
+}
+`;
+
+exports[`POST /users/login > Success user login 1`] = `
+{
+  "email": "test@test.com",
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjY1NjFkY2VjNmQ0MzhiYWEyZmZjZTFjYyIsImlhdCI6MTcwMDkxMjM2NCwiZXhwIjoxNzAxMDg1MTY0fQ.5VvGjwDlSiR0_2-Hd0WTM3deuswFD5hkcrPHs6tGi_k",
+}
+`;

@@ -3,6 +3,9 @@ import {UserType} from '../../../types/user.type.js';
 
 export default class UserRdo {
   @Expose()
+  public id!: string;
+
+  @Expose()
   public username!: string;
 
   @Expose()

@@ -89,15 +89,16 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({type: () => Boolean, required: true, default: false})
   public premium!: boolean;
 
-  @prop({type: () => String, required: true})
+  @prop({type: () => String})
   public previewImage!: string;
 
-  @prop({type: () => Date, required: true })
+  @prop({type: () => Date})
   public publicationDate!: Date;
 
   @prop({
     type: () => Number,
-    required: true, min: [1, 'Min rating is 1'],
+    default: 1,
+    min: [1, 'Min rating is 1'],
     max: [5, 'Max rating is 5']
   })
   public rating!: number;
