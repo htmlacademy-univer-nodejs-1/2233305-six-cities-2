@@ -8,7 +8,6 @@ import {
   IsBoolean,
   IsEnum,
   IsObject,
-  IsString,
   Max,
   MaxLength,
   Min,
@@ -26,13 +25,6 @@ export default class CreateOfferDto {
 
   @IsEnum(CityEnum, {message: 'type must be one of the city'})
   public city!: CityEnum;
-
-  @IsString({message: 'preview path is required.'})
-  public previewImage!: string;
-
-  @IsArray({message: 'field images must be an array'})
-  @IsString({each: true, message: 'image path should be string'})
-  public images!: string[];
 
   @IsBoolean({message: 'field premium must be boolean'})
   public premium!: boolean;

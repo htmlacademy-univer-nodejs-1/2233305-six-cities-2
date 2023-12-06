@@ -4,7 +4,7 @@ import {Component} from '../../types/component.enum.js';
 import {Controller} from '../../common/controller/controller.abstract.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {HttpMethod} from '../../types/http.methods.enum.js';
-import {fillDTO} from '../../common/helpers/common.js';
+import {createJWT, fillDTO} from '../../common/helpers/common.js';
 import {UserServiceInterface} from './user-service.interface.js';
 import {HttpError} from '../../common/http/http.errors.js';
 import {StatusCodes} from 'http-status-codes';
@@ -18,6 +18,10 @@ import {LoginUserRequest} from './type/login-user-request.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import {ValidateObjectIdMiddleware} from '../../common/middleware/validate-objectid.middleware.js';
 import {UploadFileMiddleware} from '../../common/middleware/upload-file.middleware.js';
+import {JWT_ALGORITHM} from '../../common/helpers/consts.js';
+import LoggedUserRdo from './rdo/logged-user.rdo.js';
+import {BLACK_LIST_TOKENS} from '../../common/middleware/authenticate.middleware.js';
+import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
 
 
 @injectable()
@@ -45,9 +49,15 @@ export default class UserController extends Controller {
       ]
     });
     this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuthenticate,
+    });
+    this.addRoute({
       path: '/logout',
       method: HttpMethod.Post,
-      handler: this.logout
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()]
     });
     this.addRoute({
       path: '/:userId/avatar',
@@ -78,30 +88,61 @@ export default class UserController extends Controller {
     );
   }
 
-  public async login({body}: LoginUserRequest, _res: Response,): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
+  public async login({body}: LoginUserRequest, res: Response): Promise<void> {
+    const user = await this
+      .userService
+      .verifyUser(body, this.configService.get('SALT'));
 
-    if (!existsUser) {
+    if (!user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
+        'Unauthorized',
         'UserController',
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
+    const token = await createJWT(
+      JWT_ALGORITHM,
+      this.configService.get('JWT_SECRET'),
+      {
+        email: user.email,
+        id: user.id
+      }
     );
+    this.ok(res, fillDTO(LoggedUserRdo, {
+      email: user.email,
+      token
+    }));
   }
 
-  public async logout(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+  public async checkAuthenticate({user: {email}}: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(email);
+
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+  }
+
+  public async logout(req: Request, res: Response): Promise<void> {
+    const [, token] = String(req.headers.authorization?.split(' '));
+
+    if (!req.user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    BLACK_LIST_TOKENS.add(token);
+
+    this.noContent(res, {token});
   }
 
   public async uploadAvatar(req: Request, res: Response) {

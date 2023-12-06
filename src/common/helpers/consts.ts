@@ -10,3 +10,4 @@ export const MIN_COUNT_ROOM = 1;
 export const MAX_COUNT_ROOM = 8;
 export const FIRST_WEEK_DAY = 1;
 export const LAST_WEEK_DAY = 7;
+export const JWT_ALGORITHM = 'HS256';

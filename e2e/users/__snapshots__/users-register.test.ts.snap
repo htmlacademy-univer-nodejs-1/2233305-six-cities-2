@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`POST /users/register > Invalid email 1`] = `
+[
+  {
+    "children": [],
+    "constraints": {
+      "isEmail": "Email must be valid.",
+    },
+    "property": "email",
+    "target": {
+      "email": "invalid",
+      "password": "12345678910",
+      "type": "simple",
+      "username": "test",
+    },
+    "value": "invalid",
+  },
+]
+`;
+
+exports[`POST /users/register > Success user register 1`] = `
+{
+  "avatar": "",
+  "email": "test@test.com",
+  "id": "6561dd086ef0102ec15acae4",
+  "type": "simple",
+  "username": "name",
+}
+`;
+
+exports[`POST /users/register > Success user register 2`] = `
+{
+  "error": "User with email test@test.com already exists.",
+}
+`;
