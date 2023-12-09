@@ -89,7 +89,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({type: () => Boolean, required: true, default: false})
   public premium!: boolean;
 
-  @prop({type: () => String})
+  @prop({type: () => String, default: ''})
   public previewImage!: string;
 
   @prop({type: () => Date})

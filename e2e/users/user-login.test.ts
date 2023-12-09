@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import { Headers, fetch } from 'undici';
 import { describe, test } from 'vitest';
+import LoggedUserRdo from '../../src/modules/user/rdo/logged-user.rdo.js';
 
 process.env['E2E_ENDPOINT'] = 'http://localhost:4000';
 assert(process.env['E2E_ENDPOINT'] !== undefined);
@@ -39,7 +40,9 @@ describe('POST /users/login', async () => {
     tc.expect(response.ok).toBeTruthy();
     tc.expect(response.status).toStrictEqual(200);
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
-    tc.expect(await response.json()).toMatchSnapshot();
+    const res = await response.json() as LoggedUserRdo;
+    tc.expect(res.email).toStrictEqual(user.email);
+    tc.expect(res.token.length).toBeGreaterThan(0);
   });
   test('Invalid password or email', async (tc) => {
     const user = {

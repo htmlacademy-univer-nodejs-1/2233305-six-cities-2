@@ -11,3 +11,11 @@ export const MAX_COUNT_ROOM = 8;
 export const FIRST_WEEK_DAY = 1;
 export const LAST_WEEK_DAY = 7;
 export const JWT_ALGORITHM = 'HS256';
+export const DEFAULT_AVATAR_FILE_NAME = 'default-avatar.jpg';
+export const DEFAULT_STATIC_IMAGES = [
+  'default-avatar.jpg',
+];
+
+export const STATIC_RESOURCE_FIELDS = [
+
+];

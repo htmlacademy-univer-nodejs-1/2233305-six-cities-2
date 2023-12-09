@@ -14,8 +14,8 @@ assert(process.env['E2E_ENDPOINT'].startsWith('http') === true, 'E2E_ENDPOINT д
 
 const url = new URL(process.env['E2E_ENDPOINT']);
 
-describe('POST /offers', async () => {
-  test('Success offers create', async (tc) => {
+describe('POST /comments', async () => {
+  test('Success comment create', async (tc) => {
     const offer = {
       name: 'nametenlenght',
       description: 'descriptiontwentylenght',
@@ -58,7 +58,7 @@ describe('POST /offers', async () => {
     });
 
     const content: LoggedUserRdo = await loginResponse.json() as unknown as LoggedUserRdo;
-    const response = await fetch(new URL('/offers', url), {
+    const createOfferResponse = await fetch(new URL('/offers', url), {
       method: 'POST',
       headers: new Headers({
         'content-type': 'application/json',
@@ -67,11 +67,26 @@ describe('POST /offers', async () => {
       body: JSON.stringify({...offer, userId: userRdo.id})
     });
 
-    tc.expect(response.ok).toBeTruthy();
-    tc.expect(response.status).toStrictEqual(201);
-    tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
-    const res = await response.json() as OfferRdo;
-    const author = {...res.offerAuthor, id: 0};
-    tc.expect({...res, id: 0, offerAuthor: author}).toMatchSnapshot();
+    tc.expect(createOfferResponse.ok).toBeTruthy();
+    tc.expect(createOfferResponse.status).toStrictEqual(201);
+    tc.expect(createOfferResponse.headers.get('content-type')).toMatch(/application\/json/);
+    const offerRdo = await createOfferResponse.json() as OfferRdo;
+
+    const comment = {
+      text: 'fjifjijifjg',
+      rating: 4
+    };
+    const createCommentResponse = await fetch(new URL(`/comments/${offerRdo.id}`, url), {
+      method: 'POST',
+      headers: new Headers({
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${content.token}`
+      }),
+      body: JSON.stringify({...comment, userId: userRdo.id, offerId: offerRdo.id})
+    });
+
+    tc.expect(createCommentResponse.ok).toBeTruthy();
+    tc.expect(createCommentResponse.status).toStrictEqual(201);
+    tc.expect(createCommentResponse.headers.get('content-type')).toMatch(/application\/json/);
   });
 });

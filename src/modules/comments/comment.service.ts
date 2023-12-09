@@ -5,9 +5,8 @@ import {Component} from '../../types/component.enum.js';
 import {CommentEntity} from './comment.entity';
 import CreateCommentDto from './dto/create-comment.dto';
 import {OfferServiceInterface} from '../offer/offer-service.interface.js';
-import {SortType} from '../../types/sort-type.enum.js';
 
-const COMMENTS_COUNT = 50;
+//const COMMENTS_COUNT = 50;
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   constructor(
@@ -21,21 +20,20 @@ export default class CommentService implements CommentServiceInterface {
     const offerId = dto.offerId;
     await this.offerService.incComment(offerId);
 
-    const allRating = this.commentModel.find({offerId}).select('rating');
     const offer = await this.offerService.findById(offerId);
 
     const count = offer?.commentsCount ?? 1;
-    const newRating = allRating['rating'] / (count);
+    const rating = offer?.rating ?? 0;
+    const newRating = (rating + dto.rating) / (count);
     await this.offerService.updateRating(offerId, newRating);
-    return comment.populate('authorId');
+    return comment;
   }
 
-  public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
+
+  public findById(commentId: string): Promise<DocumentType<CommentEntity> | null> {
     return this.commentModel
-      .find({offerId})
-      .sort({createdAt: SortType.Down})
-      .populate('authorId')
-      .limit(COMMENTS_COUNT);
+      .findById(commentId)
+      .populate('userId');
   }
 
   public async deleteByOfferId(offerId: string): Promise<number> {

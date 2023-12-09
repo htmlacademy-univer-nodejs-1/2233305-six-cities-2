@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`POST /offers > Success offers create 1`] = `
+exports[`GET /offer > Success get offer 1`] = `
 {
   "city": "Amsterdam",
   "commentsCount": 0,
@@ -20,10 +20,10 @@ exports[`POST /offers > Success offers create 1`] = `
   "name": "nametenlenght",
   "offerAuthor": {
     "avatar": "http://localhost:4000/static/default-avatar.jpg",
-    "email": "test@test.com",
+    "email": "test1@test.com",
     "id": 0,
     "type": "simple",
-    "username": "name",
+    "username": "name1",
   },
   "premium": true,
   "previewImage": "",
