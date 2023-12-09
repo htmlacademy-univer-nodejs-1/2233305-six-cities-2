@@ -24,6 +24,8 @@ import {ConfigSchema} from '../../common/config/config.schema.js';
 import {UploadFileMiddleware} from '../../common/middleware/upload-file.middleware.js';
 import UploadImageResponse from './rdo/upload-image.response.js';
 import {RequestBody, RequestParams} from '../../common/http/requests.js';
+import {HttpError} from '../../common/http/http.errors';
+import {StatusCodes} from 'http-status-codes';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -120,9 +122,29 @@ export default class OfferController extends Controller {
     });
 
     this.addRoute({
+      path: '/:offerId/preview-image',
+      method: HttpMethod.Post,
+      handler: this.uploadPreviewImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'previewImage'),
+      ]
+    });
+    this.addRoute({
       path: '/:offerId/image',
       method: HttpMethod.Post,
       handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'image'),
+      ]
+    });
+    this.addRoute({
+      path: '/:offerId/image',
+      method: HttpMethod.Delete,
+      handler: this.removeImage,
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
@@ -148,19 +170,61 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
-  public async update({params, body}: Request<ParamsOffer, unknown, UpdateOfferDto>, res: Response): Promise<void> {
+  public async update({params, body, user}: Request<ParamsOffer, unknown, UpdateOfferDto>, res: Response): Promise<void> {
+    const offer = await this.offerService.findById(params.offerId);
+    if (offer?.userId.id !== user.id) {
+      throw new HttpError(StatusCodes.BAD_REQUEST,
+        'Предложение было создано другим пользователем',
+        'UpdateOffer');
+    }
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
     this.ok(res, updatedOffer);
   }
 
-  public async uploadImage(req: Request<ParamsOffer>, res: Response) {
+  public async uploadPreviewImage(req: Request<ParamsOffer>, res: Response) {
+    const offer = await this.offerService.findById(req.params.offerId);
+    if (offer?.userId.id !== req.user.id) {
+      throw new HttpError(StatusCodes.BAD_REQUEST,
+        'Предложение было создано другим пользователем',
+        'DeleteOffer');
+    }
     const {offerId} = req.params;
     const updateDto = { previewImage: req.file?.filename };
     await this.offerService.updateById(offerId, updateDto);
     this.created(res, fillDTO(UploadImageResponse, {updateDto}));
   }
 
-  public async delete({params}: Request<ParamsOffer>, res: Response): Promise<void> {
+  public async uploadImage(req: Request<ParamsOffer>, res: Response) {
+    const offer = await this.offerService.findById(req.params.offerId);
+    if (offer?.userId.id !== req.user.id) {
+      throw new HttpError(StatusCodes.BAD_REQUEST,
+        'Предложение было создано другим пользователем',
+        'DeleteOffer');
+    }
+    const {offerId} = req.params;
+    await this.offerService.addImage(offerId, req.file?.filename);
+    this.noContent(res, offerId);
+  }
+
+  public async removeImage(req: Request<ParamsOffer>, res: Response) {
+    const offer = await this.offerService.findById(req.params.offerId);
+    if (offer?.userId.id !== req.user.id) {
+      throw new HttpError(StatusCodes.BAD_REQUEST,
+        'Предложение было создано другим пользователем',
+        'DeleteOffer');
+    }
+    const {offerId} = req.params;
+    await this.offerService.removeImage(offerId, req.file?.filename);
+    this.noContent(res, offerId);
+  }
+
+  public async delete({params, user}: Request<ParamsOffer>, res: Response): Promise<void> {
+    const offer = await this.offerService.findById(params.offerId);
+    if (offer?.userId.id !== user.id) {
+      throw new HttpError(StatusCodes.BAD_REQUEST,
+        'Предложение было создано другим пользователем',
+        'DeleteOffer');
+    }
     await this.offerService.deleteById(params.offerId);
     await this.commentService.deleteByOfferId(params.offerId);
     this.noContent(res, `Предложение ${params.offerId} было удалено.`);

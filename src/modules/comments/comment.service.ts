@@ -5,8 +5,9 @@ import {Component} from '../../types/component.enum.js';
 import {CommentEntity} from './comment.entity';
 import CreateCommentDto from './dto/create-comment.dto';
 import {OfferServiceInterface} from '../offer/offer-service.interface.js';
+import {SortType} from '../../types/sort-type.enum.js';
 
-//const COMMENTS_COUNT = 50;
+const COMMENTS_COUNT = 50;
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   constructor(
@@ -34,6 +35,14 @@ export default class CommentService implements CommentServiceInterface {
     return this.commentModel
       .findById(commentId)
       .populate('userId');
+  }
+
+  public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
+    return this.commentModel
+      .find({offerId})
+      .sort({createdAt: SortType.Down})
+      .populate('userId')
+      .limit(COMMENTS_COUNT);
   }
 
   public async deleteByOfferId(offerId: string): Promise<number> {
