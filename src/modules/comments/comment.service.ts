@@ -25,7 +25,7 @@ export default class CommentService implements CommentServiceInterface {
 
     const count = offer?.commentsCount ?? 1;
     const rating = offer?.rating ?? 0;
-    const newRating = (rating + dto.rating) / (count);
+    const newRating = (rating + dto.rating) / count;
     await this.offerService.updateRating(offerId, newRating);
     return comment;
   }

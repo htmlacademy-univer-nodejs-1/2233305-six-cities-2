@@ -24,7 +24,7 @@ import {ConfigSchema} from '../../common/config/config.schema.js';
 import {UploadFileMiddleware} from '../../common/middleware/upload-file.middleware.js';
 import UploadImageResponse from './rdo/upload-image.response.js';
 import {RequestBody, RequestParams} from '../../common/http/requests.js';
-import {HttpError} from '../../common/http/http.errors';
+import {HttpError} from '../../common/http/http.errors.js';
 import {StatusCodes} from 'http-status-codes';
 import {OfferShortRdo} from './rdo/offer-short.rdo.js';
 
