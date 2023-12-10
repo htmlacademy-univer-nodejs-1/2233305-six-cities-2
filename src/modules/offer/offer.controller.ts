@@ -175,19 +175,19 @@ export default class OfferController extends Controller {
     const offer = await this.offerService.findById(params.offerId);
     if (offer?.userId.id !== user.id) {
       throw new HttpError(StatusCodes.BAD_REQUEST,
-        'Предложение было создано другим пользователем',
+        'Offer was created other user',
         'UpdateOffer');
     }
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
-    this.ok(res, updatedOffer);
+    this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
   public async uploadPreviewImage(req: Request<ParamsOffer>, res: Response) {
     const offer = await this.offerService.findById(req.params.offerId);
     if (offer?.userId.id !== req.user.id) {
       throw new HttpError(StatusCodes.BAD_REQUEST,
-        'Предложение было создано другим пользователем',
-        'DeleteOffer');
+        'Offer was created other user',
+        'uploadPreviewImage');
     }
     const {offerId} = req.params;
     const updateDto = { previewImage: req.file?.filename };
@@ -199,36 +199,36 @@ export default class OfferController extends Controller {
     const offer = await this.offerService.findById(req.params.offerId);
     if (offer?.userId.id !== req.user.id) {
       throw new HttpError(StatusCodes.BAD_REQUEST,
-        'Предложение было создано другим пользователем',
-        'DeleteOffer');
+        'Offer was created other user',
+        'uploadImage');
     }
     const {offerId} = req.params;
     await this.offerService.addImage(offerId, req.file?.filename);
-    this.noContent(res, offerId);
+    this.noContent(res, 'Image was added');
   }
 
   public async removeImage(req: Request<ParamsOffer>, res: Response) {
     const offer = await this.offerService.findById(req.params.offerId);
     if (offer?.userId.id !== req.user.id) {
       throw new HttpError(StatusCodes.BAD_REQUEST,
-        'Предложение было создано другим пользователем',
-        'DeleteOffer');
+        'Offer was created other user',
+        'removeImage');
     }
     const {offerId} = req.params;
     await this.offerService.removeImage(offerId, req.file?.filename);
-    this.noContent(res, offerId);
+    this.noContent(res, 'Image was removed');
   }
 
   public async delete({params, user}: Request<ParamsOffer>, res: Response): Promise<void> {
     const offer = await this.offerService.findById(params.offerId);
     if (offer?.userId.id !== user.id) {
       throw new HttpError(StatusCodes.BAD_REQUEST,
-        'Предложение было создано другим пользователем',
+        'Offer was created other user',
         'DeleteOffer');
     }
     await this.offerService.deleteById(params.offerId);
     await this.commentService.deleteByOfferId(params.offerId);
-    this.noContent(res, `Предложение ${params.offerId} было удалено.`);
+    this.noContent(res, `Offer ${params.offerId} was removed.`);
   }
 
   public async showPremium({params}: Request<ParamsCity>, res: Response): Promise<void> {

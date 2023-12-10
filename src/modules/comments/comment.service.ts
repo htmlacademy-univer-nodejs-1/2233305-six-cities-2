@@ -34,7 +34,8 @@ export default class CommentService implements CommentServiceInterface {
   public findById(commentId: string): Promise<DocumentType<CommentEntity> | null> {
     return this.commentModel
       .findById(commentId)
-      .populate('userId');
+      .populate('userId')
+      .exec();
   }
 
   public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
@@ -42,7 +43,8 @@ export default class CommentService implements CommentServiceInterface {
       .find({offerId})
       .sort({createdAt: SortType.Down})
       .populate('userId')
-      .limit(COMMENTS_COUNT);
+      .limit(COMMENTS_COUNT)
+      .exec();
   }
 
   public async deleteByOfferId(offerId: string): Promise<number> {

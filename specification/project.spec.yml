@@ -93,20 +93,6 @@ paths:
         "401":
           description: Пользователь не авторизован
 
-  /users/{userId}/avatar:
-    post:
-      tags:
-        - users
-      summary: Добавление аватарки пользователю
-      description: Добавление аватарки пользователю
-      parameters:
-        -file:
-      responses:
-        "201":
-          description: Аватарка добавлена
-        "400":
-          description: Передан не верный userId
-
   /offers/users/favorites:
     get:
       tags:
@@ -233,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offer'
+                $ref: '#/components/schemas/offerRdo'
         "404":
           description: Предложение с offerId не найдено
         "400":
@@ -276,7 +262,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/offer'
+              $ref: '#/components/schemas/editOffer'
         required: true
       responses:
         "201":
@@ -284,7 +270,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offer'
+                $ref: '#/components/schemas/offerRdo'
         "400":
           description: Предложение не создано. Переданы невалидные данные
         "401":
@@ -319,7 +305,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/commentCreate'
+              $ref: '#/components/schemas/commentCreateDto'
         required: true
       responses:
         "201":
@@ -327,7 +313,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/comment'
+                $ref: '#/components/schemas/commentRdo'
         "404":
           description: Не удалось найти предложение по offerId
         "400":
@@ -441,7 +427,7 @@ components:
           type: string
           example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InByZXZpZXdJbWFnZTNAbWFpbC5ydSIsImlkIjoiNjU3NDQwZWRhM2ZiZWE4YmI1OTEwZGE5IiwiaWF0IjoxNzAyMTE3NjI0LCJleHAiOjE3MDIyOTA0MjR9.0eHiNdLKHuGoD1ldUOFTWkB5Dp8eBwL_HHeic2e5cBk
 
-    offer:
+    offerRdo:
       type: object
       properties:
         name:
@@ -533,7 +519,7 @@ components:
         coordinates:
           $ref: '#/components/schemas/coordinates'
 
-    favoriteOfferRdo:
+    offerShortRdo:
       type: object
       properties:
         id:
@@ -729,13 +715,19 @@ components:
       type: array
       items:
         type: offer
-        $ref: '#/components/schemas/offer'
+        $ref: '#/components/schemas/offerRdo'
 
     favoriteOffers:
       type: array
       items:
         type: offer
-        $ref: '#/components/schemas/favoriteOfferRdo'
+        $ref: '#/components/schemas/offerShortRdo'
+
+    comments:
+      type: array
+      items:
+        type: offer
+        $ref: '#/components/schemas/commentRdo'
 
     coordinates:
       type: object
@@ -749,16 +741,8 @@ components:
           type: float
           example: 1.33345445
 
-    changeFavorite:
-      type: object
 
-      properties:
-        favorite:
-          type: boolean
-          example: true
-
-
-    comment:
+    commentRdo:
       type: object
       properties:
         text:
@@ -779,7 +763,7 @@ components:
         user:
           $ref: '#/components/schemas/user'
 
-    commentCreate:
+    commentCreateDto:
       type: object
       properties:
         text:
@@ -796,10 +780,5 @@ components:
         user:
           $ref: '#/components/schemas/user'
 
-    comments:
-      type: array
-      items:
-        type: object
-        $ref: '#/components/schemas/comment'
 
 
