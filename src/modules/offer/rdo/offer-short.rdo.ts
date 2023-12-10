@@ -9,7 +9,7 @@ export class OfferShortRdo {
   @Expose()
     name!: string;
 
-  @Expose()
+  @Expose({ name: 'createdAt'})
     publicationDate!: Date;
 
   @Expose()

@@ -127,8 +127,7 @@ describe('GET /offers', async () => {
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
     const responseJson = await response.json() as OfferRdo[];
     const res = responseJson.map((x) => {
-      const author = {...x.offerAuthor, id: 0};
-      return {...x, id: 0, offerAuthor: author};
+      return {...x, id: 0};
     });
     tc.expect(res).toMatchSnapshot();
     tc.expect(responseJson.length).toStrictEqual(OFFERS_COUNT);

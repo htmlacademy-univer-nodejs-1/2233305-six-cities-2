@@ -107,7 +107,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/favoriteOffers'
+                $ref: '#/components/schemas/shortOffers'
         "401":
           description: Пользователь не авторизован
 
@@ -158,7 +158,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offers'
+                $ref: '#/components/schemas/shortOffers'
 
 
   /offers/{offerId}:
@@ -174,7 +174,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/editOffer'
+              $ref: '#/components/schemas/editOfferDto'
         required: true
       responses:
         "200":
@@ -182,7 +182,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/editOffer'
+                $ref: '#/components/schemas/offerRdo'
         "400":
           description: Передан неверный offerId
         "401":
@@ -249,7 +249,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/offers'
+                $ref: '#/components/schemas/shortOffers'
     post:
       tags:
         - offers
@@ -262,7 +262,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/editOffer'
+              $ref: '#/components/schemas/editOfferDto'
         required: true
       responses:
         "201":
@@ -430,6 +430,9 @@ components:
     offerRdo:
       type: object
       properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
         name:
           type: string
           example: Квартира
@@ -551,14 +554,6 @@ components:
           type: string
           example: offer.jpg
 
-        images:
-          type: array
-          items:
-            type: string
-            example: offer.jpg
-          minItems: 6
-          maxItems: 6
-
         premium:
           type: boolean
           example: true
@@ -579,49 +574,19 @@ components:
           enum: [ Apartment, House, Room, Hotel ]
           example: apartment
 
-        roomCount:
-          type: integer
-          example: 4
-          minimum: 1
-          maximum: 8
-
-        guestCount:
-          type: integer
-          example: 3
-          minimum: 1
-          maximum: 10
-
         cost:
           type: number
           example: 50600
           minimum: 100
           maximum: 100000
 
-        facilities:
-          type: array
-          items:
-            type: string
-            enum: [ Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge ]
-            example: Breakfast, Laptop
-          minItems: 1
-
-        offerAuthor:
-          $ref: '#/components/schemas/user'
-
         commentsCount:
           type: number
           example: 10
 
-        coordinates:
-          $ref: '#/components/schemas/coordinates'
-
-    editOffer:
+    editOfferDto:
       type: object
       properties:
-        id:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
-
         name:
           type: string
           example: Квартира
@@ -633,10 +598,6 @@ components:
           example: Описание
           minLength: 20
           maxLength: 1024
-
-        publicationDate:
-          type: string
-          example: 2023-11-01T00:00:00Z
 
         city:
           type: string
@@ -658,17 +619,6 @@ components:
         premium:
           type: boolean
           example: true
-
-        favorite:
-          type: boolean
-          example: false
-
-        rating:
-          type: number
-          format: float
-          example: 2.5
-          minimum: 1
-          maximum: 5
 
         housingType:
           type: string
@@ -701,13 +651,6 @@ components:
             example: [ Breakfast, Laptop ]
           minItems: 1
 
-        offerAuthor:
-          $ref: '#/components/schemas/user'
-
-        commentsCount:
-          type: number
-          example: 10
-
         coordinates:
           $ref: '#/components/schemas/coordinates'
 
@@ -717,7 +660,7 @@ components:
         type: offer
         $ref: '#/components/schemas/offerRdo'
 
-    favoriteOffers:
+    shortOffers:
       type: array
       items:
         type: offer
@@ -777,6 +720,7 @@ components:
           example: 5
           minimum: 1
           maximum: 5
+
         user:
           $ref: '#/components/schemas/user'
 
