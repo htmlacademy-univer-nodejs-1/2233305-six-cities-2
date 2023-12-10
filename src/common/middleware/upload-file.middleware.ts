@@ -14,9 +14,9 @@ export class UploadFileMiddleware implements MiddlewareInterface {
     const storage = diskStorage({
       destination: this.uploadDirectory,
       filename: (_req, file, callback) => {
-        const fileExtentions = extension(file.mimetype);
+        const fileExtensions = extension(file.mimetype);
         const filename = nanoid();
-        callback(null, `${filename}.${fileExtentions}`);
+        callback(null, `${filename}.${fileExtensions}`);
       }
     });
 

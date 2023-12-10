@@ -13,6 +13,9 @@ export class FavoriteOfferShortDto {
     publicationDate!: Date;
 
   @Expose()
+    description!: string;
+
+  @Expose()
     city!: CityEnum;
 
   @Expose()
