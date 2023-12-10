@@ -26,6 +26,7 @@ import UploadImageResponse from './rdo/upload-image.response.js';
 import {RequestBody, RequestParams} from '../../common/http/requests.js';
 import {HttpError} from '../../common/http/http.errors';
 import {StatusCodes} from 'http-status-codes';
+import {OfferShortRdo} from './rdo/offer-short.rdo.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -156,7 +157,7 @@ export default class OfferController extends Controller {
   public async index({params}: Request<ParamsOffersCount>, res: Response): Promise<void> {
     const offerCount = params.count ? parseInt(`${params.count}`, 10) : undefined;
     const offers = await this.offerService.find(offerCount);
-    this.ok(res, fillDTO(OfferRdo, offers));
+    this.ok(res, fillDTO(OfferShortRdo, offers));
   }
 
   public async create({ body, user }: Request<RequestParams, RequestBody, CreateOfferDto>, res: Response): Promise<void> {
@@ -232,7 +233,7 @@ export default class OfferController extends Controller {
 
   public async showPremium({params}: Request<ParamsCity>, res: Response): Promise<void> {
     const offers = await this.offerService.findPremiumByCity(params.city);
-    this.ok(res, fillDTO(OfferRdo, offers));
+    this.ok(res, fillDTO(OfferShortRdo, offers));
   }
 
   public async showFavorites(req: Request, _res: Response): Promise<void> {
