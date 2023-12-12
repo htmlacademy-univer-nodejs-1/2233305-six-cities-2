@@ -33,7 +33,7 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     ref: UserEntity,
     required: true,
   })
-  public authorId!: Ref<UserEntity>;
+  public userId!: Ref<UserEntity>;
 
   @prop({
     type: () => Number,

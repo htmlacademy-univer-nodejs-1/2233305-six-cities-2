@@ -1,0 +1,44 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GET /offers/premium > Success get premium offers 1`] = `
+[
+  {
+    "city": "Amsterdam",
+    "commentsCount": 0,
+    "cost": 10000,
+    "housingType": "House",
+    "id": 0,
+    "name": "nametenlenght2",
+    "premium": true,
+    "previewImage": "http://localhost:4000/upload/",
+    "publicationDate": "2023-12-10T13:23:44.086Z",
+    "rating": 1,
+  },
+  {
+    "city": "Amsterdam",
+    "commentsCount": 0,
+    "cost": 10000,
+    "housingType": "House",
+    "id": 0,
+    "name": "nametenlenght1",
+    "premium": true,
+    "previewImage": "http://localhost:4000/upload/",
+    "publicationDate": "2023-12-10T13:23:44.066Z",
+    "rating": 1,
+  },
+  {
+    "city": "Amsterdam",
+    "commentsCount": 0,
+    "cost": 10000,
+    "housingType": "House",
+    "id": 0,
+    "name": "nametenlenght0",
+    "premium": true,
+    "previewImage": "http://localhost:4000/upload/",
+    "publicationDate": "2023-12-10T13:23:44.047Z",
+    "rating": 1,
+  },
+]
+`;
+
+exports[`GET /offers/premium > Success get premium offers empty 1`] = `[]`;

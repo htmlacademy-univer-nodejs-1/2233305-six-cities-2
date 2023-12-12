@@ -13,5 +13,7 @@ export interface OfferServiceInterface extends DocumentExistsInterface{
   findPremiumByCity(city: string): Promise<DocumentType<OfferEntity>[]>;
   incComment(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   exists(documentId: string): Promise<boolean>;
+  addImage(offerId: string, image?: string): Promise<void>;
+  removeImage(offerId: string, image?: string): Promise<void>;
   updateRating(offerId: string, rating: number): Promise<void>;
 }

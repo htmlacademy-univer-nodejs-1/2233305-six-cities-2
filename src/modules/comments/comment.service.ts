@@ -21,21 +21,30 @@ export default class CommentService implements CommentServiceInterface {
     const offerId = dto.offerId;
     await this.offerService.incComment(offerId);
 
-    const allRating = this.commentModel.find({offerId}).select('rating');
     const offer = await this.offerService.findById(offerId);
 
     const count = offer?.commentsCount ?? 1;
-    const newRating = allRating['rating'] / (count);
+    const rating = offer?.rating ?? 0;
+    const newRating = (rating + dto.rating) / count;
     await this.offerService.updateRating(offerId, newRating);
-    return comment.populate('authorId');
+    return comment;
+  }
+
+
+  public findById(commentId: string): Promise<DocumentType<CommentEntity> | null> {
+    return this.commentModel
+      .findById(commentId)
+      .populate('userId')
+      .exec();
   }
 
   public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
       .find({offerId})
       .sort({createdAt: SortType.Down})
-      .populate('authorId')
-      .limit(COMMENTS_COUNT);
+      .populate('userId')
+      .limit(COMMENTS_COUNT)
+      .exec();
   }
 
   public async deleteByOfferId(offerId: string): Promise<number> {

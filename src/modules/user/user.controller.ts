@@ -22,15 +22,16 @@ import {JWT_ALGORITHM} from '../../common/helpers/consts.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
 import {BLACK_LIST_TOKENS} from '../../common/middleware/authenticate.middleware.js';
 import {PrivateRouteMiddleware} from '../../common/middleware/private-route.middleware.js';
+import UploadUserAvatarResponse from './rdo/upload-user-avatar.response.js';
 
 
 @injectable()
 export default class UserController extends Controller {
   constructor(@inject(Component.LoggerInterface) logger: LoggerInterface,
               @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
-              @inject(Component.ConfigInterface) private readonly configService: ConfigInterface<ConfigSchema>
+              @inject(Component.ConfigInterface) protected readonly configService: ConfigInterface<ConfigSchema>
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.addRoute({
       path: '/register',
@@ -109,10 +110,10 @@ export default class UserController extends Controller {
         id: user.id
       }
     );
-    this.ok(res, fillDTO(LoggedUserRdo, {
-      email: user.email,
+    this.ok(res, {
+      ...fillDTO(LoggedUserRdo, user),
       token
-    }));
+    });
   }
 
   public async checkAuthenticate({user: {email}}: Request, res: Response) {
@@ -146,8 +147,9 @@ export default class UserController extends Controller {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const {userId} = req.params;
+    const uploadFile = {avatar: req.file?.filename};
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 }

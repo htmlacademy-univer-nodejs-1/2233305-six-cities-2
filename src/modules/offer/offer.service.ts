@@ -71,6 +71,16 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
+  public async addImage(offerId: string, image: string): Promise<void> {
+    await this.offerModel
+      .updateOne({_id: offerId}, {$addToSet: {images: image}});
+  }
+
+  public async removeImage(offerId: string, image: string): Promise<void> {
+    await this.offerModel
+      .updateOne({_id: offerId}, {$pull: {images: image}});
+  }
+
   public async updateRating(offerId: string, rating: number): Promise<void> {
     await this.offerModel
       .findByIdAndUpdate(offerId, {rating: rating}, {new: true})

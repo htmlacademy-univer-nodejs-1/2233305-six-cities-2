@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import { Headers, fetch } from 'undici';
 import { describe, test } from 'vitest';
+import UserRdo from '../../src/modules/user/rdo/user.rdo.js';
 
 process.env['E2E_ENDPOINT'] = 'http://localhost:4000';
 assert(process.env['E2E_ENDPOINT'] !== undefined);
@@ -28,7 +29,10 @@ describe('POST /users/register', async () => {
     tc.expect(response.ok).toBeTruthy();
     tc.expect(response.status).toStrictEqual(201);
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
-    tc.expect(await response.json()).toMatchSnapshot();
+    const res = await response.json() as UserRdo;
+    tc.expect(res.type).toStrictEqual(user.type);
+    tc.expect(res.email).toStrictEqual(user.email);
+    tc.expect(res.username).toStrictEqual(user.username);
 
     const responseWhenUserExist = await fetch(new URL('/users/register', url), {
       method: 'POST',
