@@ -11,7 +11,7 @@ exports[`GET /offers > Success get offers 1`] = `
     "name": "nametenlenght2",
     "premium": true,
     "previewImage": "http://localhost:4000/upload/",
-    "publicationDate": "2023-12-10T13:22:27.718Z",
+    "publicationDate": 31.01,
     "rating": 1,
   },
   {
@@ -23,7 +23,7 @@ exports[`GET /offers > Success get offers 1`] = `
     "name": "nametenlenght1",
     "premium": true,
     "previewImage": "http://localhost:4000/upload/",
-    "publicationDate": "2023-12-10T13:22:27.697Z",
+    "publicationDate": 31.01,
     "rating": 1,
   },
   {
@@ -35,7 +35,7 @@ exports[`GET /offers > Success get offers 1`] = `
     "name": "nametenlenght0",
     "premium": true,
     "previewImage": "http://localhost:4000/upload/",
-    "publicationDate": "2023-12-10T13:22:27.677Z",
+    "publicationDate": 31.01,
     "rating": 1,
   },
 ]

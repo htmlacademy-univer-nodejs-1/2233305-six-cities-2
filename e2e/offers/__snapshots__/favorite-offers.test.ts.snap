@@ -13,7 +13,7 @@ exports[`GET /offers/favorites > Success get favorite offers 1`] = `
     "name": "nametenlenght",
     "premium": true,
     "previewImage": "http://localhost:4000/upload/",
-    "publicationDate": "2023-12-10T13:19:27.051Z",
+    "publicationDate": 31.02,
     "rating": 1,
   },
 ]

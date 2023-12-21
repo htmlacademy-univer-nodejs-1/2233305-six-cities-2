@@ -9,6 +9,7 @@ STATIC_DIRECTORY_PATH,
 HOST
 
 ### примеры переменных окружения можно найти в .env.example, а описание в config.schema.ts
+##### Чтобы войти в mongodb-express нужно ввести username - admin, password - pass
 
 P.S Команды для запуска работают на node 18 версии, в момент написания проекта она была lts версией
 ```

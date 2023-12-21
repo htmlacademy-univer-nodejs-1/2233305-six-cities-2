@@ -72,6 +72,6 @@ describe('POST /offers', async () => {
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
     const res = await response.json() as OfferRdo;
     const author = {...res.offerAuthor, id: 0};
-    tc.expect({...res, id: 0, offerAuthor: author}).toMatchSnapshot();
+    tc.expect({...res, id: 0, offerAuthor: author, publicationDate: 23.01}).toMatchSnapshot();
   });
 });
