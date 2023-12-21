@@ -95,7 +95,7 @@ describe('GET /offers/favorites', async () => {
     tc.expect(getFavoriteResponse.headers.get('content-type')).toMatch(/application\/json/);
     const favoriteOfferRdo = await getFavoriteResponse.json() as FavoriteOfferShortDto[];
     const res = favoriteOfferRdo.map((x) => {
-      return {...x, id: 0};
+      return {...x, id: 0, publicationDate: 31.02};
     });
     tc.expect(res).toMatchSnapshot();
   });

@@ -27,7 +27,7 @@ exports[`POST /offers > Success offers create 1`] = `
   },
   "premium": true,
   "previewImage": "http://localhost:4000/upload/",
-  "publicationDate": "2023-12-10T13:16:17.373Z",
+  "publicationDate": 23.01,
   "rating": 1,
   "roomCount": 2,
 }

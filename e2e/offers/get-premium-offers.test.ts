@@ -83,9 +83,7 @@ describe('GET /offers/premium', async () => {
     tc.expect(response.status).toStrictEqual(200);
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
     const responseJson = await response.json() as OfferRdo[];
-    const res = responseJson.map((x) => {
-      return {...x, id: 0};
-    });
+    const res = responseJson.map((x) => ({...x, id: 0, publicationDate: 31.01}));
     tc.expect(res).toMatchSnapshot();
     tc.expect(responseJson.length).toStrictEqual(OFFERS_COUNT);
   });
@@ -156,9 +154,7 @@ describe('GET /offers/premium', async () => {
     tc.expect(response.status).toStrictEqual(200);
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
     const responseJson = await response.json() as OfferRdo[];
-    const res = responseJson.map((x) => {
-      return {...x, id: 0};
-    });
+    const res = responseJson.map((x) => ({...x, id: 0, publicationDate: 31.01}));
     tc.expect(res).toMatchSnapshot();
     tc.expect(responseJson.length).toStrictEqual(0);
   });

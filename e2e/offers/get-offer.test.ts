@@ -82,7 +82,7 @@ describe('GET /offer', async () => {
     tc.expect(response.headers.get('content-type')).toMatch(/application\/json/);
     const responseJson = await response.json() as OfferRdo;
     const author = {...responseJson.offerAuthor, id: 0};
-    tc.expect({...responseJson, id: 0, offerAuthor: author}).toMatchSnapshot();
+    tc.expect({...responseJson, id: 0, offerAuthor: author, publicationDate: 31.01}).toMatchSnapshot();
   });
 
   test('Fail get offer [Not found]', async (tc) => {
